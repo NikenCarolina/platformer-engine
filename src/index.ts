@@ -43,8 +43,6 @@ canvas.addEventListener("mousemove", (event) => {
   const mouseX = event.clientX - rect.left;
   const mouseY = event.clientY - rect.top;
   cursor.setPosition(mouseX, mouseY);
-  console.log(mouseX, mouseY);
-  console.log("hei");
   if (ctx !== null) cursor.draw(ctx);
 });
 
