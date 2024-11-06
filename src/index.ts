@@ -12,7 +12,6 @@ canvas.style.top = "0";
 canvas.style.left = "0";
 const ctx = canvas.getContext("2d");
 const cursor = new Cursor();
-const corner = new Player(canvas.width, canvas.height, -10, -10);
 const player = new Player(
   canvas.width / 3,
   canvas.height - canvas.height / 3,
@@ -31,22 +30,25 @@ const ground2 = new Ground(
   canvas.width - canvas.width / 5,
   canvas.height - canvas.height / 2
 );
+const ground3 = new Ground(canvas.width / 3, 20, canvas.width, 20);
 
 cursor.attach(player);
 ground.attach(player);
 ground2.attach(player);
-const objects: CanvasObject[] = [player, ground, cursor, corner, ground2];
+ground3.attach(player);
+const objects: CanvasObject[] = [player, ground, ground2, ground3];
 
 canvas.addEventListener("mousemove", (event) => {
   const rect = canvas.getBoundingClientRect();
   const mouseX = event.clientX - rect.left;
   const mouseY = event.clientY - rect.top;
   cursor.setPosition(mouseX, mouseY);
+  console.log(mouseX, mouseY);
+  console.log("hei");
   if (ctx !== null) cursor.draw(ctx);
 });
 
 window.addEventListener("resize", () => {
-  console.log(window.innerWidth);
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   canvas.style.position = "absolute";
@@ -61,7 +63,6 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event: KeyboardEvent) => {
-  console.log(event);
   if (event.code === Direction.Left || event.code === Direction.Right)
     player.stopX();
 });

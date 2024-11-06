@@ -8,6 +8,7 @@ export class Ground implements Subject, CanvasObject {
   public y: number;
   public x1: number;
   public y1: number;
+  public threshold: number = 10;
   public constructor(x: number, y: number, x1: number, y1: number) {
     this.x = x;
     this.y = y;
