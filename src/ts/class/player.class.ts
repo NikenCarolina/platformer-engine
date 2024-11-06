@@ -49,6 +49,8 @@ export class Player implements Observer, CanvasObject {
   public draw(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = this.ctxfillStyle;
     ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+  public move(): void {
     this.x = this.x + this.xVelocity;
     this.y = this.y + this.yVelocity;
     this.yVelocity = this.yVelocity + this.yAcceleration;

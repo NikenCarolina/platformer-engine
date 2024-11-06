@@ -5,12 +5,15 @@ import { Ground } from "./ts/class/ground.class";
 import { Direction } from "./ts/enum/action.enum";
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 canvas.style.position = "absolute";
 canvas.style.top = "0";
 canvas.style.left = "0";
+
 const ctx = canvas.getContext("2d");
+
 const cursor = new Cursor();
 const player = new Player(
   canvas.width / 3,
@@ -36,7 +39,6 @@ cursor.attach(player);
 ground.attach(player);
 ground2.attach(player);
 ground3.attach(player);
-const objects: CanvasObject[] = [player, ground, ground2, ground3];
 
 canvas.addEventListener("mousemove", (event) => {
   const rect = canvas.getBoundingClientRect();
@@ -65,15 +67,21 @@ window.addEventListener("keyup", (event: KeyboardEvent) => {
     player.stopX();
 });
 
-function draw(objects: CanvasObject[]) {
+const objects: CanvasObject[] = [player, ground, ground2, ground3];
+function draw() {
   ctx?.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
   for (const object of objects) {
     if (ctx !== null) object.draw(ctx);
   }
 }
 
+function update() {
+  player.move();
+}
+
 function mainLoop() {
-  draw(objects);
+  update();
+  draw();
   requestAnimationFrame(mainLoop);
 }
 
