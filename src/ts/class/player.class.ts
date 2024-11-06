@@ -5,14 +5,20 @@ import { Cursor } from "./cursor.class";
 import { Ground } from "./ground.class";
 
 export class Player implements Observer, CanvasObject {
+  private ctxfillStyle: string;
+
   public x: number;
   public y: number;
   private width: number;
   private height: number;
-  private ctxfillStyle: string;
+
   public xVelocity = 0;
   public yVelocity = 0;
-  public yAcceleration = 0.98;
+  public gravity = 0.98;
+  public yAcceleration: number = this.gravity;
+  public jumpVelocity = -15;
+  public moveVelocity = 2;
+
   public constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
     this.y = y;
@@ -31,13 +37,12 @@ export class Player implements Observer, CanvasObject {
         this.x + this.width >= subject.x &&
         this.x <= subject.x1
       ) {
-        if (this.yVelocity > 0) {
+        if (this.yVelocity > 0 && this.y - subject.y <= subject.threshold) {
           this.yVelocity = 0;
-          this.yAcceleration = 0;
-          this.y = -this.height + subject.y;
+          this.y = subject.y - this.height;
         }
       } else {
-        this.yVelocity += this.yAcceleration;
+        this.yAcceleration = this.gravity;
       }
     }
   }
@@ -46,7 +51,7 @@ export class Player implements Observer, CanvasObject {
     ctx.fillRect(this.x, this.y, this.width, this.height);
     this.x = this.x + this.xVelocity;
     this.y = this.y + this.yVelocity;
-    this.yVelocity = this.yVelocity + this.yAcceleration + 0.6;
+    this.yVelocity = this.yVelocity + this.yAcceleration;
   }
   public isHovered(mouseX: number, mouseY: number): boolean {
     return (
@@ -58,13 +63,13 @@ export class Player implements Observer, CanvasObject {
   }
   public jump() {
     if (this.yVelocity != 0) return;
-    this.yVelocity = -15;
+    this.yVelocity = this.jumpVelocity;
   }
   public moveLeft() {
-    this.xVelocity = -2;
+    this.xVelocity = -this.moveVelocity;
   }
   public moveRight() {
-    this.xVelocity = 2;
+    this.xVelocity = this.moveVelocity;
   }
   public stopX() {
     this.xVelocity = 0;
