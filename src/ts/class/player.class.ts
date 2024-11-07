@@ -16,8 +16,9 @@ export class Player implements Observer, CanvasObject {
   public yVelocity = 0;
   public gravity = 0.98;
   public yAcceleration: number = this.gravity;
+  public xAcceleration: number = 0;
   public jumpVelocity = -15;
-  public moveVelocity = 2;
+  public moveVelocity = 4;
 
   public constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
@@ -68,10 +69,14 @@ export class Player implements Observer, CanvasObject {
     this.yVelocity = this.jumpVelocity;
   }
   public moveLeft() {
-    this.xVelocity = -this.moveVelocity;
+    this.xVelocity = this.xVelocity - this.xAcceleration;
+    if (this.xVelocity > -this.moveVelocity) this.xAcceleration = 1;
+    else this.xAcceleration = 0;
   }
   public moveRight() {
-    this.xVelocity = this.moveVelocity;
+    this.xVelocity = this.xVelocity + this.xAcceleration;
+    if (this.xVelocity < this.moveVelocity) this.xAcceleration = 1;
+    else this.xAcceleration = 0;
   }
   public stopX() {
     this.xVelocity = 0;

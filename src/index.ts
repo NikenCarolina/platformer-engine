@@ -63,7 +63,7 @@ window.addEventListener("keydown", (event) => {
 });
 
 window.addEventListener("keyup", (event: KeyboardEvent) => {
-  if (event.code === Direction.Left || event.code === Direction.Right)
+  if (event.code === Direction.Right || event.code === Direction.Left)
     player.stopX();
 });
 
